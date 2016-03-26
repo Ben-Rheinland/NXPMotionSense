@@ -64,6 +64,8 @@ void draw()
   //drawArduino();
 
   popMatrix(); // end of object
+  
+  drawText(); //after popMatrix so text won't rotate
 
   // Print values to console
   print(roll);
@@ -133,15 +135,13 @@ void keyPressed()
         break;
       case 'z':
         yawOffset += 18.0f;
-        if (yawOffset >= 360.0f) {
-          yawOffset = 0.0f;
-        }
+        yawOffset = yawOffset % 360.f;
         break;
       case 'x':
         yawOffset -= 18.0f;
-        if (yawOffset < 0.0f) {
-          yawOffset = 360.0f + yawOffset;
-        }
+        yawOffset = yawOffset % 360.f; //java's modulo is IEEE 754 compatible
+        // and will return positive remainder: -5 % 360 = 355
+        // https://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3
         break;
     }
   }
